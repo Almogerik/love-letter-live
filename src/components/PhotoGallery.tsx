@@ -75,150 +75,152 @@ const PhotoGallery = ({ isOpen, onClose }: PhotoGalleryProps) => {
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md overflow-y-auto"
-      >
-        {/* Header */}
-        <div className="sticky top-0 z-10 flex justify-between items-center p-6 bg-background/80 backdrop-blur-sm border-b border-primary/20">
-          <h2 className="font-display text-2xl md:text-3xl text-primary">
-            Nos plus beaux moments ❤️
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-primary/10 transition-colors"
-            aria-label="Fermer la galerie"
-          >
-            <X size={28} className="text-primary" />
-          </button>
-        </div>
-
-        {/* Gallery Grid */}
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {galleryMedia.map((media, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05, duration: 0.5 }}
-                className="aspect-square cursor-pointer group relative overflow-hidden rounded-lg"
-                onClick={() => openLightbox(index)}
-              >
-                {media.type === "video" ? (
-                  <video
-                    src={media.src}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={media.src}
-                    alt={`Souvenir ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {media.type === "video" && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 bg-white/80 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-black border-b-8 border-b-transparent ml-1" />
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Lightbox */}
-        <AnimatePresence>
-          {selectedIndex !== null && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-              onClick={closeLightbox}
+    <>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md overflow-y-auto"
+        >
+          {/* Header */}
+          <div className="sticky top-0 z-10 flex justify-between items-center p-6 bg-background/80 backdrop-blur-sm border-b border-primary/20">
+            <h2 className="font-display text-2xl md:text-3xl text-primary">
+              Nos plus beaux moments ❤️
+            </h2>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full hover:bg-primary/10 transition-colors"
+              aria-label="Fermer la galerie"
             >
-              {/* Close button */}
+              <X size={28} className="text-primary" />
+            </button>
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="container mx-auto px-6 py-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {galleryMedia.map((media, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05, duration: 0.5 }}
+                  className="aspect-square cursor-pointer group relative overflow-hidden rounded-lg"
+                  onClick={() => openLightbox(index)}
+                >
+                  {media.type === "video" ? (
+                    <video
+                      src={media.src}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      muted
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      src={media.src}
+                      alt={`Souvenir ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {media.type === "video" && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-12 h-12 bg-white/80 rounded-full flex items-center justify-center">
+                        <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-black border-b-8 border-b-transparent ml-1" />
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Lightbox - Separate from scrollable container */}
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+            onClick={closeLightbox}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+              aria-label="Fermer"
+            >
+              <X size={32} className="text-white" />
+            </button>
+
+            {/* Previous button */}
+            {selectedIndex > 0 && (
               <button
-                onClick={closeLightbox}
-                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
-                aria-label="Fermer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevious();
+                }}
+                className="absolute left-4 md:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+                aria-label="Photo précédente"
               >
-                <X size={32} className="text-white" />
+                <ChevronLeft size={32} className="text-white" />
               </button>
+            )}
 
-              {/* Previous button */}
-              {selectedIndex > 0 && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goToPrevious();
-                  }}
-                  className="absolute left-4 md:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
-                  aria-label="Photo précédente"
-                >
-                  <ChevronLeft size={32} className="text-white" />
-                </button>
-              )}
+            {/* Next button */}
+            {selectedIndex < galleryMedia.length - 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNext();
+                }}
+                className="absolute right-4 md:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+                aria-label="Photo suivante"
+              >
+                <ChevronRight size={32} className="text-white" />
+              </button>
+            )}
 
-              {/* Next button */}
-              {selectedIndex < galleryMedia.length - 1 && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goToNext();
-                  }}
-                  className="absolute right-4 md:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
-                  aria-label="Photo suivante"
-                >
-                  <ChevronRight size={32} className="text-white" />
-                </button>
-              )}
+            {/* Image or Video */}
+            {galleryMedia[selectedIndex].type === "video" ? (
+              <motion.video
+                key={selectedIndex}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                src={galleryMedia[selectedIndex].src}
+                controls
+                autoPlay
+                className="max-w-full max-h-full object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <motion.img
+                key={selectedIndex}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                src={galleryMedia[selectedIndex].src}
+                alt={`Photo ${selectedIndex + 1}`}
+                className="max-w-full max-h-full object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
 
-              {/* Image or Video */}
-              {galleryMedia[selectedIndex].type === "video" ? (
-                <motion.video
-                  key={selectedIndex}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  src={galleryMedia[selectedIndex].src}
-                  controls
-                  autoPlay
-                  className="max-w-full max-h-full object-contain"
-                  onClick={(e) => e.stopPropagation()}
-                />
-              ) : (
-                <motion.img
-                  key={selectedIndex}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  src={galleryMedia[selectedIndex].src}
-                  alt={`Photo ${selectedIndex + 1}`}
-                  className="max-w-full max-h-full object-contain"
-                  onClick={(e) => e.stopPropagation()}
-                />
-              )}
-
-              {/* Counter */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white font-body text-sm">
-                {selectedIndex + 1} / {galleryMedia.length}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </AnimatePresence>
+            {/* Counter */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white font-body text-sm">
+              {selectedIndex + 1} / {galleryMedia.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
