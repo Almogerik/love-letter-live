@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import FloatingHearts from "@/components/FloatingHearts";
+import OpeningScreen from "@/components/OpeningScreen";
+import Slideshow from "@/components/Slideshow";
 
 const Index = () => {
+  const [started, setStarted] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="min-h-screen bg-background overflow-hidden">
+      <FloatingHearts />
+
+      <AnimatePresence mode="wait">
+        {!started ? (
+          <motion.div
+            key="opening"
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          >
+            <OpeningScreen onStart={() => setStarted(true)} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="slideshow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
+          >
+            <Slideshow />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
   );
 };
 
