@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import FloatingHearts from "@/components/FloatingHearts";
+import RosePetals from "@/components/RosePetals";
 import OpeningScreen from "@/components/OpeningScreen";
 import Slideshow from "@/components/Slideshow";
 
@@ -10,6 +11,7 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-background overflow-hidden">
       <FloatingHearts />
+      <RosePetals />
 
       <AnimatePresence mode="wait">
         {!started ? (

@@ -92,7 +92,7 @@
     transform: scale(1) translate(0, 0);
   }
   100% {
-    transform: scale(1.15) translate(-2%, -1%);
+    transform: scale(1.05) translate(-1%, -0.5%);
   }
 }
 
@@ -114,8 +114,29 @@
   }
 }
 
+@keyframes float-petal {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(110vh) translateX(var(--sway-amount, 30px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 .animate-float-heart {
   animation: float-heart linear forwards;
+}
+
+.animate-float-petal {
+  animation: float-petal linear infinite;
 }
 
 .animate-ken-burns {

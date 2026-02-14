@@ -1,5 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
+import Confetti from "./Confetti";
+import FinalScreen from "./FinalScreen";
+import LoveLetter from "./LoveLetter";
+import PhotoGallery from "./PhotoGallery";
 
 /*
   IMAGES — Replace these paths with your own photos.
@@ -7,16 +12,16 @@ import { motion, AnimatePresence } from "framer-motion";
 */
 const slides = [
   {
-    image: "/images/photo1.jpg",
-    text: "Depuis le premier jour, tu as illuminé ma vie…",
+    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.41.jpeg",
+    text: "Depuis le premier jour, tu remplis ma vie de surprises et de bonheur…",
   },
   {
-    image: "/images/photo2.jpg",
-    text: "Chaque instant avec toi est un cadeau précieux.",
+    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.410.jpeg",
+    text: "La distance fait que chaque instant avec toi devient un cadeau précieux.",
   },
   {
-    image: "/images/photo3.jpg",
-    text: "Tu es mon aventure préférée, mon étoile dans la nuit.",
+    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.415.jpeg",
+    text: "Tu es partie essentielle de moi.",
   },
   {
     image: "/images/photo4.jpg",
@@ -29,22 +34,83 @@ const INTERVAL = 4000;
 const Slideshow = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isLetterOpen, setIsLetterOpen] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const advance = useCallback(() => {
     if (currentIndex < slides.length - 1) {
       setCurrentIndex((i) => i + 1);
     } else {
       setShowFinalMessage(true);
+      setShowConfetti(true);
     }
   }, [currentIndex]);
+
+  const goToPrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((i) => i - 1);
+    }
+  };
+
+  const goToNext = () => {
+    advance();
+  };
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isMusicPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsMusicPlaying(!isMusicPlaying);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(advance, INTERVAL);
     return () => clearInterval(timer);
   }, [advance]);
 
+  useEffect(() => {
+    // Initialiser l'audio (mettre votre fichier audio dans /public/music/)
+    audioRef.current = new Audio("/music/Unbelievable-Craig%20David%20-.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+    
+    // Démarrer automatiquement la musique
+    audioRef.current.play().then(() => {
+      setIsMusicPlaying(true);
+    }).catch((error) => {
+      console.log("Lecture automatique bloquée:", error);
+      // La musique sera démarrée manuellement par l'utilisateur
+    });
+    
+    // Cleanup
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-background overflow-hidden">
+      {/* Confetti on final message */}
+      {showConfetti && <Confetti />}
+      
+      {/* Music control button */}
+      <button
+        onClick={toggleMusic}
+        className="fixed top-6 right-6 z-50 p-3 rounded-full bg-background/50 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary/10 transition-all duration-300"
+        aria-label="Toggle music"
+      >
+        {isMusicPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
+      </button>
       {/* Slide images with Ken Burns */}
       <AnimatePresence mode="sync">
         <motion.div
@@ -82,50 +148,48 @@ const Slideshow = () => {
         )}
       </AnimatePresence>
 
-      {/* Final message */}
+      {/* Final Screen avec 2 boutons */}
       <AnimatePresence>
         {showFinalMessage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-background/70 backdrop-blur-sm px-6"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, delay: 0.5 }}
-              className="font-display text-3xl md:text-5xl lg:text-6xl text-primary text-center leading-tight"
-            >
-              Bonne Saint-Valentin
-              <br />
-              mon amour ❤️
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, delay: 2 }}
-              className="mt-8 md:mt-12 font-display text-lg md:text-2xl italic text-foreground/80 text-center max-w-2xl leading-relaxed"
-            >
-              Tu es la plus belle chose qui me soit arrivée.
-              <br className="hidden md:block" />
-              Merci d'être toi, merci d'être là, merci de m'aimer.
-              <br className="hidden md:block" />
-              Aujourd'hui et pour toujours, je suis à toi.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 3.5 }}
-              className="mt-10 text-gold-warm font-body text-sm tracking-[0.3em] uppercase"
-            >
-              Avec tout mon amour
-            </motion.div>
-          </motion.div>
+          <FinalScreen 
+            onOpenLetter={() => setIsLetterOpen(true)}
+            onOpenGallery={() => setIsGalleryOpen(true)} 
+          />
         )}
       </AnimatePresence>
+
+      {/* Love Letter Modal */}
+      <LoveLetter 
+        isOpen={isLetterOpen} 
+        onClose={() => setIsLetterOpen(false)} 
+      />
+
+      {/* Photo Gallery Modal */}
+      <PhotoGallery 
+        isOpen={isGalleryOpen} 
+        onClose={() => setIsGalleryOpen(false)} 
+      />
+
+      {/* Navigation buttons */}
+      {!showFinalMessage && currentIndex > 0 && (
+        <button
+          onClick={goToPrevious}
+          className="fixed left-6 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-background/50 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={32} />
+        </button>
+      )}
+      
+      {!showFinalMessage && currentIndex < slides.length - 1 && (
+        <button
+          onClick={goToNext}
+          className="fixed right-6 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-background/50 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={32} />
+        </button>
+      )}
 
       {/* Progress dots */}
       {!showFinalMessage && (
