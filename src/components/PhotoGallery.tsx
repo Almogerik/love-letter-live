@@ -7,14 +7,14 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
   Placez vos images dans /public/images/gallery/ 
 */
 const galleryPhotos = [
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.41.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.410.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.411.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.412.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.413.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.414.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.415.jpeg",
-  "/images/gallery/WhatsApp%20Image%202026-02-14%20at%2012.57.416.jpeg",
+  "/images/gallery/whatsapp-image-1.jpeg",
+  "/images/gallery/whatsapp-image-2.jpeg",
+  "/images/gallery/whatsapp-image-3.jpeg",
+  "/images/gallery/whatsapp-image-4.jpeg",
+  "/images/gallery/whatsapp-image-5.jpeg",
+  "/images/gallery/whatsapp-image-6.jpeg",
+  "/images/gallery/whatsapp-image-7.jpeg",
+  "/images/gallery/whatsapp-image-8.jpeg",
 ];
 
 interface PhotoGalleryProps {

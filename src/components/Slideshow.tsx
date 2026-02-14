@@ -12,15 +12,15 @@ import PhotoGallery from "./PhotoGallery";
 */
 const slides = [
   {
-    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.41.jpeg",
+    image: "/images/whatsapp-image-1.jpeg",
     text: "Depuis le premier jour, tu remplis ma vie de surprises et de bonheur…",
   },
   {
-    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.410.jpeg",
+    image: "/images/whatsapp-image-2.jpeg",
     text: "La distance fait que chaque instant avec toi devient un cadeau précieux.",
   },
   {
-    image: "/images/WhatsApp%20Image%202026-02-14%20at%2012.57.415.jpeg",
+    image: "/images/whatsapp-image-3.jpeg",
     text: "Tu es partie essentielle de moi.",
   },
   {
@@ -77,7 +77,7 @@ const Slideshow = () => {
 
   useEffect(() => {
     // Initialiser l'audio (mettre votre fichier audio dans /public/music/)
-    audioRef.current = new Audio("/music/Unbelievable-Craig%20David%20-.mp3");
+    audioRef.current = new Audio("/music/romantic-song.mp3");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
     
