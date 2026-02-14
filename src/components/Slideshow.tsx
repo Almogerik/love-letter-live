@@ -122,7 +122,7 @@ const Slideshow = () => {
           className="absolute inset-0"
         >
           <div
-            className="absolute inset-0 bg-cover bg-center animate-ken-burns"
+            className={`absolute inset-0 bg-center ${currentIndex === 1 ? 'bg-contain bg-no-repeat' : 'bg-cover animate-ken-burns'}`}
             style={{ backgroundImage: `url(${slides[currentIndex].image})` }}
           />
           {/* Dark overlay for text readability */}
