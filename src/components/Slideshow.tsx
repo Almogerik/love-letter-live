@@ -21,7 +21,7 @@ const slides = [
   },
   {
     image: "/images/whatsapp-image-3.jpeg",
-    text: "Tu es partie essentielle de moi.",
+    text: "Tu es une partie essentielle de moi.",
   },
   {
     image: "/images/photo4.jpg",

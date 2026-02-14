@@ -65,7 +65,7 @@ Pourtant, chacun de ces moments bon ou mauvais nous a aidés à grandir, à mieu
 
                 <p>
 Je sais que je ne fais pas toujours les choses comme il le faudrait, et que j’ai encore beaucoup à apprendre.
-Mais j'essaie de faire de mon mieux.J’admire profondément la patience et le calme dont tu fais preuve avec moi.
+Mais j'essaie de faire de mon mieux. J'admire profondément la patience et le calme dont tu fais preuve avec moi.
                 </p>
 
                 <p>
